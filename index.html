@@ -1,14 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>문제 골라줘잉</title>
-</head>
-<body>
-  <div id="app">
-<!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,15 +9,19 @@
   <div id="app">
     <h1>문제 골라줘잉</h1>
     <h3 v-if="cnt < 0">시작할까? 다음을 눌러주세요</h3>
-    <div class="problem" v-else-if="cnt < 10">
-      <h3 class="name">{{ name }}</h3>
-      <h3 v-html="problem"></h3>
+    <div class="problem" v-else-if="cnt < maxCount">
+      <h3 class="name">
+        <span>
+          {{ name }} ({{cnt + 1}} / {{maxCount}})
+        </span>
+      </h3>
+      <h3> <span v-html="problem"></span></h3>
     </div>
     <h3 v-else>모두 고생하셨습니다!</h3>
 
     <div>
       <button @click="cnt--" :disabled="cnt < 0">이전</button>
-      <button @click="cnt++" :disabled="cnt >= 10">다음</button>
+      <button @click="cnt++" :disabled="cnt >= maxCount">다음</button>
     </div>
     
 
@@ -40,12 +35,13 @@
     createApp({
       setup() {
         const cnt = ref(-1);
+        const maxCount = ref(10);
         const name = ref("");
         const problem = ref("");
 
         let names = ["하경", "하경", "햇빛", "햇빛", "은영", "은영", "한규", "한규", "세희", "세희"];
         let problems = [
-          "다음 소스 코드에는 성능상의 문제가 있습니다. 어떤 문제인지 설명해보세요.<br><img src='./image.png' />",
+          "다음 소스 코드에는 성능상의 문제가 있습니다. 어떤 문제인지 설명해보세요.<br><img src='./images/1.png' />",
           "장치 드라이버는 왜 설치해야 하나요?",
           "GPU와 CPU를 비교하여 설명해보세요.",
           "base64 인코딩이란 무엇이며, 어디에서 base64 인코딩을 사용하는지 설명해 보세요.",
@@ -69,6 +65,7 @@
 
         return {
           cnt,
+          maxCount,
           name,
           problem,
         };
